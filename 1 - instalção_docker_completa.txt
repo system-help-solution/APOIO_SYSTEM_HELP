@@ -1,7 +1,14 @@
+PROJETO SYSTEMBOX 
+
+curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh -o quick_start.sh && sudo bash quick_start.sh
+
+docker hub chatwoot
 Docker Chatwoot - https://hub.docker.com/r/chatwoot/chatwoot/tags
 
+Docker hub evolution 
 Docker Evolution - https://hub.docker.com/r/davidsongomes/evolution-api/tags
 
+repositório oficial da evolution 
 Git hub evolution - https://github.com/EvolutionAPI/evolution-api
 
 Gerador de Key https://codebeautify.org/generate-random-hexadecimal-numbers
