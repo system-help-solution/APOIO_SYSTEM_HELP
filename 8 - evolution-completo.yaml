@@ -1,16 +1,16 @@
-version: "3.7"
+version: '3.7'
 
 services:
   evolution:
-    image: davidsongomes/evolution-api:v1.5.4
+    image: atendai/evolution-api:homolog
     command: ["node", "./dist/src/main.js"]
     networks:
       - minha_rede
     volumes:
-    - evolution_instances:/evolution/instances
-    - evolution_store:/evolution/store
+      - evolution_instances:/evolution/instances
+      - evolution_store:/evolution/store
     environment:
-      - SERVER_URL=https://seudominio.com.br
+      - SERVER_URL=https://conecta.seudominio.space
       - DOCKER_ENV=true
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
       - DEL_INSTANCE=false
@@ -26,7 +26,7 @@ services:
       - CLEAN_STORE_CONTACTS=true
       - CLEAN_STORE_CHATS=true
       - AUTHENTICATION_TYPE=apikey
-      - AUTHENTICATION_API_KEY=0417bf43b0a8969bd6685bcb49d783df
+      - AUTHENTICATION_API_KEY=123456789
       - AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES=true
       - QRCODE_LIMIT=30
       - WEBHOOK_GLOBAL_ENABLED=false
@@ -51,6 +51,14 @@ services:
       - WEBHOOK_EVENTS_CONNECTION_UPDATE=true
       - REDIS_ENABLED=false
       - REDIS_URI=redis://redis:6379
+      - DATABASE_ENABLED=true
+      - DATABASE_CONNECTION_URI=mongodb://admin:123456789@172.111.9.250:27017/?authSource=admin&readPreference=primary&ssl=false&directConnection=true
+      - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
+      - DATABASE_SAVE_MESSAGE_UPDATE=false
+      - DATABASE_SAVE_DATA_CONTACTS=false
+      - DATABASE_SAVE_DATA_CHATS=false
     deploy:
       mode: replicated
       replicas: 1
@@ -63,13 +71,14 @@ services:
           memory: 2048M
       labels:
         - traefik.enable=true
-        - traefik.http.routers.evolution.rule=Host(`seudominio.com.br`)
+        - traefik.http.routers.evolution.rule=Host(`conecta.seudominio.space`)
         - traefik.http.routers.evolution.entrypoints=websecure
         - traefik.http.routers.evolution.tls.certresolver=letsencryptresolver
         - traefik.http.routers.evolution.priority=1
         - traefik.http.routers.evolution.service=evolution
         - traefik.http.services.evolution.loadbalancer.server.port=8080
         - traefik.http.services.evolution.loadbalancer.passHostHeader=true
+
 
 volumes:
   evolution_instances:
@@ -81,5 +90,4 @@ volumes:
 
 networks:
   minha_rede:
-    name: minha_rede
     external: true
